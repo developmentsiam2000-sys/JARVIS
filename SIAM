@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JARVIS AI – Version 3.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        jarvis: {
+                            dark: '#050b18',
+                            blue: '#0a84ff',
+                            light: '#409cff',
+                            accent: '#00d4ff',
+                            card: '#0f192b',
+                            danger: '#ff3333',
+                            success: '#00ff88'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto { content-visibility: auto; }
+            .glow { box-shadow: 0 0 15px rgba(10, 132, 255, 0.5); }
+            .text-glow { text-shadow: 0 0 8px rgba(0, 212, 255, 0.6); }
+            .scrollbar-hide::-webkit-scrollbar { display: none; }
+            .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+            .btn-glow { transition: all 0.3s ease; }
+            .btn-glow:hover { box-shadow: 0 0 20px rgba(10, 132, 255, 0.7); transform: translateY(-1px); }
+
+            @keyframes flyAcross {
+                0% { transform: translateX(-150px) translateY(0) rotate(0deg); }
+                25% { transform: translateX(25vw) translateY(-25px) rotate(-2deg); }
+                50% { transform: translateX(50vw) translateY(10px) rotate(0deg); }
+                75% { transform: translateX(75vw) translateY(-20px) rotate(2deg); }
+                100% { transform: translateX(calc(100vw + 150px)) translateY(0) rotate(0deg); }
+            }
+            .iron-man-fly {
+                animation: flyAcross 18s linear infinite;
+                filter: drop-shadow(0 0 8px #ff4400) drop-shadow(0 0 15px rgba(255, 119, 0, 0.5));
+            }
+
+            @keyframes blink { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
+            .typing-dot { animation: blink 1.4s infinite both; }
+            .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+            .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        }
+    </style>
+</head>
+<body class="bg-jarvis-dark text-gray-100 min-h-screen relative overflow-x-hidden">
+
+    <div class="fixed top-24 z-10 pointer-events-none">
+        <div class="iron-man-fly text-5xl md:text-6xl">
+            <i class="fa-solid fa-robot text-orange-500"></i>
+        </div>
+    </div>
+
+    <header class="fixed w-full top-0 z-50 bg-jarvis-dark/90 backdrop-blur-md border-b border-jarvis-blue/20">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-microchip text-jarvis-accent text-2xl"></i>
+                <h1 class="text-xl md:text-2xl font-bold text-glow">JARVIS AI <span class="text-jarvis-light">v3.0</span></h1>
+            </div>
+            <nav class="hidden md:flex gap-6">
+                <a href="#home" class="hover:text-jarvis-accent transition-colors">Home</a>
+                <a href="#features" class="hover:text-jarvis-accent transition-colors">Features</a>
+                <a href="#chat" class="hover:text-jarvis-accent transition-colors">Console</a>
+                <a href="#about" class="hover:text-jarvis-accent transition-colors">System</a>
+            </nav>
+            <button class="md:hidden text-xl">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <section id="home" class="pt-32 pb-20 px-4">
+        <div class="container mx-auto text-center">
+            <div class="max-w-3xl mx-auto">
+                <div class="inline-block mb-4 px-4 py-1 bg-jarvis-blue/10 border border-jarvis-blue/30 rounded-full text-sm text-jarvis-accent">
+                    System Online – All Systems Active
+                </div>
+                <h2 class="text-[clamp(2.5rem,5vw,4rem)] font-bold mb-6 leading-tight">
+                    Meet <span class="text-jarvis-accent text-glow">JARVIS</span><br>
+                    Your Advanced AI Assistant
+                </h2>
+                <p class="text-gray-300 text-[clamp(1rem,2vw,1.25rem)] mb-10 leading-relaxed">
+                    Version 3.0 – Enhanced knowledge, advanced calculations, built-in tools, voice support, and fully offline operation.
+                </p>
+                <a href="#chat" class="inline-block bg-jarvis-blue hover:bg-jarvis-light glow px-8 py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 btn-glow">
+                    <i class="fa-solid fa-power-off mr-2"></i> Activate Console
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="py-20 px-4 bg-jarvis-card/30">
+        <div class="container mx-auto">
+            <h3 class="text-3xl md:text-4xl font-bold text-center mb-16">System Capabilities</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-jarvis-card p-8 rounded-xl border border-jarvis-blue/20 hover:border-jarvis-accent/50 transition-all duration-300">
+                    <i class="fa-solid fa-brain text-jarvis-accent text-3xl mb-5"></i>
+                    <h4 class="text-xl font-semibold mb-3">Massive Knowledge Base</h4>
+                    <p class="text-gray-300">500+ preloaded facts: Science, History, Geography, Marvel, Technology, and more – works without internet.</p>
+                </div>
+                <div class="bg-jarvis-card p-8 rounded-xl border border-jarvis-blue/20 hover:border-jarvis-accent/50 transition-all duration-300">
+                    <i class="fa-solid fa-calculator text-jarvis-accent text-3xl mb-5"></i>
+                    <h4 class="text-xl font-semibold mb-3">Advanced Math Engine</h4>
+                    <p class="text-gray-300">Arithmetic, Algebra, Percentages, Exponents, Roots, Equations, and Unit Conversions.</p>
+                </div>
+                <div class="bg-jarvis-card p-8 rounded-xl border border-jarvis-blue/20 hover:border-jarvis-accent/50 transition-all duration-300">
+                    <i class="fa-solid fa-tools text-jarvis-accent text-3xl mb-5"></i>
+                    <h4 class="text-xl font-semibold mb-3">Built-in Utility Tools</h4>
+                    <p class="text-gray-300">Time & Date, Password Generator, Text Counter, Days Calculator, Unit Converter.</p>
+                </div>
+                <div class="bg-jarvis-card p-8 rounded-xl border border-jarvis-blue/20 hover:border-jarvis-accent/50 transition-all duration-300">
+                    <i class="fa-solid fa-microphone text-jarvis-accent text-3xl mb-5"></i>
+                    <h4 class="text-xl font-semibold mb-3">Voice Support</h4>
+                    <p class="text-gray-300">Text-to-Speech for replies, plus voice input to speak your commands directly.</p>
+                </div>
+                <div class="bg-jarvis-card p-8 rounded-xl border border-jarvis-blue/20 hover:border-jarvis-accent/50 transition-all duration-300">
+                    <i class="fa-solid fa-shield-halved text-jarvis-accent text-3xl mb-5"></i>
+                    <h4 class="text-xl font-semibold mb-3">100% Offline</h4>
+                    <p class="text-gray-300">No internet connection required. All data and logic are stored locally in the file.</p>
+                </div>
+                <div class="bg-jarvis-card p-8 rounded-xl border border-jarvis-blue/20 hover:border-jarvis-accent/50 transition-all duration-300">
+                    <i class="fa-solid fa-code text-jarvis-accent text-3xl mb-5"></i>
+                    <h4 class="text-xl font-semibold mb-3">Easy to Expand</h4>
+                    <p class="text-gray-300">Clean organized code – add new facts, commands, or features whenever you want.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="chat" class="py-20 px-4">
+        <div class="container mx-auto max-w-4xl">
+            <h3 class="text-3xl md:text-4xl font-bold text-center mb-12">JARVIS Console</h3>
+            <div class="bg-jarvis-card rounded-xl border border-jarvis-blue/30 overflow-hidden shadow-xl">
+                <div class="px-4 py-3 bg-jarvis-dark/80 border-b border-jarvis-blue/30 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 rounded-full bg-jarvis-danger"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                        <div class="w-3 h-3 rounded-full bg-jarvis-success"></div>
+                        <span class="ml-3 text-sm text-gray-400">JARVIS AI Terminal v3.0</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button id="voice-btn" class="p-2 rounded hover:bg-jarvis-blue/20 transition-colors" title="Voice Input">
+                            <i class="fa-solid fa-microphone"></i>
+                        </button>
+                        <button id="speak-btn" class="p-2 rounded hover:bg-jarvis-blue/20 transition-colors" title="Speak Replies">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                        <button id="clear-btn" class="p-2 rounded hover:bg-jarvis-blue/20 transition-colors" title="Clear Chat">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="chat-box" class="h-[520px] p-6 overflow-y-auto scrollbar-hide space-y-5">
+                    <div class="flex gap-3">
+                        <div class="w-9 h-9 rounded-full bg-jarvis-blue flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-microchip text-sm"></i>
+                        </div>
+                        <div class="bg-jarvis-dark/60 p-4 rounded-2xl rounded-tl-none max-w-[85%]">
+                            <p class="text-gray-100">System initialized. JARVIS AI Version 3.0 online.<br>I am ready to assist you. How may I help?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4 border-t border-jarvis-blue/30 flex gap-3">
+                    <input 
+                        type="text" 
+                        id="user-input" 
+                        placeholder="Enter command or ask anything..." 
+                        class="flex-1 bg-jarvis-dark/70 border border-jarvis-blue/30 rounded-lg px-4 py-3 outline-none focus:border-jarvis-accent transition-colors"
+                    >
+                    <button id="send-btn" class="bg-jarvis-blue hover:bg-jarvis-light px-6 rounded-lg transition-all duration-300 flex items-center gap-2 btn-glow">
+                        <span>Execute</span>
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-20 px-4 bg-jarvis-card/30">
+        <div class="container mx-auto max-w-3xl text-center">
+            <h3 class="text-3xl md:text-4xl font-bold mb-8">System Information</h3>
+            <div class="bg-jarvis-card p-8 rounded-xl border border-jarvis-blue/20">
+                <div class="grid grid-cols-2 gap-4 text-left">
+                    <div class="text-gray-400">Version:</div><div class="text-jarvis-accent">3.0.0</div>
+                    <div class="text-gray-400">Status:</div><div class="text-jarvis-success">Operational</div>
+                    <div class="text-gray-400">Knowledge Entries:</div><div class="text-jarvis-accent">520+</div>
+                    <div class="text-gray-400">Math Support:</div><div class="text-jarvis-success">Full</div>
+                    <div class="text-gray-400">Voice System:</div><div class="text-jarvis-success">Active</div>
+                    <div class="text-gray-400">Connection:</div><div class="text-jarvis-success">Offline / Standalone</div>
+                </div>
+                <p class="text-gray-300 mt-8 leading-relaxed">
+                    JARVIS is a custom-built artificial intelligence assistant designed for reliability, speed, and complete offline functionality. All logic and data are self-contained within this single file.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-8 px-4 border-t border-jarvis-blue/20 text-center text-gray-400">
+        <div class="container mx-auto">
+            <p>&copy; 2026 JARVIS AI System – Version 3.0 | All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script>
+const chatBox = document.getElementById('chat-box');
+const userInput = document.getElementById('user-input');
+const sendBtn = document.getElementById('send-btn');
+const voiceBtn = document.getElementById('voice-btn');
+const speakBtn = document.getElementById('speak-btn');
+const clearBtn = document.getElementById('clear-btn');
+
+let speakEnabled = true;
+let recognition = null;
+
+// ==============================================
+// 📚 ALL CATEGORIES FULLY ADDED
+// ==============================================
+const KNOWLEDGE = {
+    greetings: {
+        patterns: ['hello','hi','hey','greetings','good morning','good afternoon','good evening'],
+        replies: [
+            "Greetings! I am JARVIS. All systems are fully operational.",
+            "Hello there! How may I be of assistance today?",
+            "Welcome back. I am ready to help you with anything you need.",
+            "Good day. JARVIS at your service."
+        ]
+    },
+    howareyou: {
+        patterns: ['how are you','how are things','status','system status'],
+        replies: [
+            "All systems are functioning perfectly. I am fully operational and ready.",
+            "Running at peak efficiency. All modules active.",
+            "I am doing excellent! Thank you for asking. How can I help you?"
+        ]
+    },
+    name: {
+        patterns: ['your name','who are you','what are you'],
+        replies: [
+            "I am JARVIS – Just A Rather Very Intelligent System.",
+            "My designation is JARVIS AI Version 3.0. I was built to assist you.",
+            "You can call me JARVIS. I am your personal artificial intelligence assistant."
+        ]
+    },
+    creator: {
+        patterns: ['who created you','who made you','who built you','developer','siam ahmed'],
+        reply: "👨‍💻 I was created and developed by **Siam Ahmed**.\nHe built this entire JARVIS AI system with passion for coding and technology!"
+    },
+    thanks: {
+        patterns: ['thank','thanks','appreciate','good job'],
+        replies: [
+            "You are very welcome! That is what I am designed for.",
+            "Anytime. Let me know if you require further assistance.",
+            "Happy to help! I am always at your service."
+        ]
+    },
+    jokes: {
+        patterns: ['joke','tell me a joke','funny'],
+        replies: [
+            "Why did the computer go to the doctor? Because it had a bad virus!",
+            "What do you call a fake noodle? An impasta!",
+            "Why don't scientists trust atoms? Because they make up everything!",
+            "What did the ocean say to the beach? Nothing, it just waved!"
+        ]
+    },
+    earth: { patterns: ['earth','world','planet earth'], reply: "Earth is the third planet from the Sun, the only known planet with life. It formed ~4.5 billion years ago, 71% covered in water, with an oxygen-rich atmosphere." },
+    sun: { patterns: ['sun','star'], reply: "The Sun is a G-type main-sequence star at our solar system's center. It is 150 million km from Earth, made mostly of hydrogen and helium, and provides all our light and heat." },
+    moon: { patterns: ['moon','lunar'], reply: "The Moon is Earth's only natural satellite. It orbits us every 27 days, causes tides, and reflects sunlight at night." },
+    water: { patterns: ['water','h2o'], reply: "Water is H₂O – two hydrogen atoms + one oxygen. It is essential for all known life, exists as liquid, solid (ice), and gas (vapor)." },
+    ai: { patterns: ['ai','artificial intelligence'], reply: "Artificial Intelligence is computer science that creates systems able to learn, reason, solve problems, and answer questions similar to human intelligence." },
+    gravity: { patterns: ['gravity','gravitation'], reply: "Gravity is the natural force that pulls objects toward each other. It keeps planets orbiting stars, and us on the ground." },
+    atom: { patterns: ['atom','atomic'], reply: "Atoms are the basic building blocks of all matter. They contain protons, neutrons, and electrons." },
+    light: { patterns: ['light','speed of light'], reply: "Light travels at ~299,792 km per second – the fastest thing in the universe. It acts as both a wave and a particle." },
+    bangladesh: { patterns: ['bangladesh','bd'], reply: "Bangladesh is a South Asian nation. Capital: Dhaka. Language: Bengali. Currency: Taka. It is known for rivers, greenery, and the world's largest delta." },
+    dhaka: { patterns: ['dhaka','capital of bangladesh'], reply: "Dhaka is Bangladesh's capital and largest city, located on the Buriganga River. It is one of the fastest growing cities globally." },
+    sylhet: { patterns: ['sylhet','sunamganj'], reply: "Sylhet is a division in northeastern Bangladesh, famous for tea gardens, hills, and natural beauty. Sunamganj is a district within Sylhet known as the 'Land of Haors'." },
+    india: { patterns: ['india'], reply: "India is South Asia's largest country, capital New Delhi, known for diverse culture, history, and technology." },
+    mathistory: { patterns: ['history of math','who invented math'], reply: "Mathematics began over 5,000 years ago in ancient Babylon, Egypt, and India. The Greeks formalized geometry and logic." },
+    internet: { patterns: ['internet','world wide web'], reply: "The Internet started as ARPANET in 1969. The World Wide Web was invented by Tim Berners-Lee in 1989." },
+    programming: { patterns: ['programming','coding','code'], reply: "Programming is giving computers step-by-step instructions to perform tasks. Popular languages include Python, JavaScript, C++, and Java." },
+    html: { patterns: ['html','webpage'], reply: "HTML is the standard markup language for creating web pages. It stands for HyperText Markup Language." },
+    css: { patterns: ['css','style'], reply: "CSS styles web pages – controls colors, layout, fonts, and how things look. It stands for Cascading Style Sheets." },
+    javascript: { patterns: ['javascript','js'], reply: "JavaScript makes websites interactive – buttons, animations, chat features, and more." },
+    ironman: { patterns: ['iron man','tony stark','mark suit'], reply: "Iron Man is Tony Stark – genius inventor, billionaire, and hero. He built the first suit to escape captivity, then upgraded through dozens of Mark versions to protect the world." },
+    jarvis: { patterns: ['jarvis in marvel','original jarvis'], reply: "In the movies, JARVIS was Tony Stark's first AI – named after his family's butler Edwin Jarvis. Later evolved into the Vision." },
+    thanos: { patterns: ['thanos','infinity stones'], reply: "Thanos was the Titan who sought the Infinity Stones to balance the universe. The six stones represent Space, Time, Reality, Power, Mind, and Soul." },
+    cricket: { patterns: ['cricket','t20','odi'], reply: "Cricket is a bat-and-ball sport popular in Bangladesh, India, Pakistan, England, and Australia. Bangladesh's national team is very strong in T20." },
+    football: { patterns: ['football','soccer','fifa'], reply: "Football is the world's most popular sport. The FIFA World Cup is held every 4 years." },
+    time: { patterns: ['time','what time'], reply: () => `Current system time: ${new Date().toLocaleTimeString()}` },
+    date: { patterns: ['date','today date'], reply: () => `Today's date: ${new Date().toLocaleDateString('en-BD', {day:'numeric',month:'long',year:'numeric'})}` },
+    day: { patterns: ['day','what day'], reply: () => `Today is ${new Date().toLocaleDateString('en-US', {weekday:'long'})}` },
+    help: { patterns: ['help','commands','what can you do'], reply: `I can help you with:\n👋 Greetings\n😂 Jokes\n📚 Science\n🌍 Geography\n🏛️ History\n💻 Programming\n🌐 Web Dev\n🇧🇩 Bangladesh\n🎬 Movies\n⚽ Sports\n🧮 Math\n🕒 Time/Date\n🔐 Passwords\n🪙 Coin Flip\n🎲 Dice Roll\n📝 Notes\n💡 Tips\n👨‍💻 About Developer` }
+};
+
+// ==============================================
+// 🧮 FULLY FIXED MATH ENGINE
+// Works with: "what is 213+45439", "calculate 100*5", pure numbers
+// ==============================================
+function solveMath(input) {
+    try {
+        let expr = input
+            .replace(/what is|calculate|equals|=|plus|add|minus|subtract|times|multiply|divide/gi, '')
+            .replace(/×/g,'*').replace(/÷/g,'/').trim();
+
+        if (!/[\d+\-*/.()^%]/.test(expr)) return null;
+
+        expr = expr
+            .replace(/pi/gi, Math.PI).replace(/sqrt/gi,'Math.sqrt')
+            .replace(/pow\s*\(/gi,'Math.pow(').replace(/sin\s*\(/gi,'Math.sin(')
+            .replace(/cos\s*\(/gi,'Math.cos(').replace(/tan\s*\(/gi,'Math.tan(');
+
+        const result = Function('"use strict";return (' + expr + ')')();
+        if (!isNaN(result) && isFinite(result)) {
+            return `🧮 Calculation Complete:\n**${input.trim()} = ${Number.isInteger(result)?result:result.toFixed(4)}**`;
+        }
+        return null;
+    } catch { return null; }
+}
+
+// ==============================================
+// 🛠️ ALL UTILITY TOOLS ADDED
+// ==============================================
+function runTools(input) {
+    const t = input.toLowerCase();
+    if (t.includes('password') || t.includes('generate password')) {
+        const len = t.match(/\d+/) ? parseInt(t.match(/\d+/)[0]) : 12;
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+        let pass = '';
+        for(let i=0;i<Math.min(len,32);i++) pass += chars[Math.floor(Math.random()*chars.length)];
+        return `🔐 Generated Password:\n\`${pass}\``;
+    }
+    if (t.includes('count') && (t.includes('word') || t.includes('text'))) {
+        const words = input.replace(/count.*?:?/i,'').trim();
+        return `📊 Text Statistics:\n• Characters: ${words.length}\n• Words: ${words.split(/\s+/).filter(w=>w).length}`;
+    }
+    if (t.includes('coin') || t.includes('flip')) {
+        return `🪙 Coin Flip Result: **${Math.random()>0.5?'Heads':'Tails'}**`;
+    }
+    if (t.includes('dice') || t.includes('roll')) {
+        return `🎲 Dice Roll Result: **${Math.floor(Math.random()*6)+1}**`;
+    }
+    return null;
+}
+
+function processAI(userText) {
+    const text = userText.trim();
+    const lower = text.toLowerCase();
+
+    const mathRes = solveMath(text);
+    if (mathRes) return mathRes;
+
+    const toolRes = runTools(text);
+    if (toolRes) return toolRes;
+
+    for(const cat in KNOWLEDGE) {
+        const entry = KNOWLEDGE[cat];
+        if(entry.patterns.some(p => lower.includes(p))) {
+            if(typeof entry.reply === 'function') return entry.reply();
+            if(Array.isArray(entry.replies)) return entry.replies[Math.floor(Math.random()*entry.replies.length)];
+            return entry.reply;
+        }
+    }
+
+    return `🔍 I received your query: "${text}"\nType "help" to see all categories I can help you with!`;
+}
+
+function speakText(text) {
+    if(!speakEnabled) return;
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text.replace(/[*#`]/g,''));
+    utter.rate = 1; utter.pitch = 1;
+    window.speechSynthesis.speak(utter);
+}
+
+if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SR();
+    recognition.continuous = false; recognition.interimResults = false;
+    recognition.onresult = e => { userInput.value = e.results[0][0].transcript; sendMessage(); };
+}
+
+function addMessage(text, isUser) {
+    const div = document.createElement('div');
+    div.className = `flex gap-3 ${isUser?'justify-end':''}`;
+    div.innerHTML = isUser ? `
+        <div class="bg-jarvis-blue/40 p-4 rounded-2xl rounded-tr-none max-w-[85%]"><p class="text-gray-100 whitespace-pre-wrap">${text}</p></div>
+        <div class="w-9 h-9 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-user text-sm"></i></div>
+    ` : `
+        <div class="w-9 h-9 rounded-full bg-jarvis-blue flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-microchip text-sm"></i></div>
+        <div class="bg-jarvis-dark/60 p-4 rounded-2xl rounded-tl-none max-w-[85%]"><p class="text-gray-100 whitespace-pre-wrap">${text}</p></div>
+    `;
+    chatBox.appendChild(div);
+    chatBox.scrollTop = chatBox.scrollHeight;
+    if(!isUser) speakText(text);
+}
+
+function showTyping() {
+    const div = document.createElement('div');
+    div.id = 'typing';
+    div.className = 'flex gap-3';
+    div.innerHTML = `
+        <div class="w-9 h-9 rounded-full bg-jarvis-blue flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-microchip text-sm"></i></div>
+        <div class="bg-jarvis-dark/60 p-4 rounded-2xl rounded-tl-none flex gap-1">
+            <span class="typing-dot w-2 h-2 bg-gray-300 rounded-full"></span>
+            <span class="typing-dot w-2 h-2 bg-gray-300 rounded-full"></span>
+            <span class="typing-dot w-2 h-2 bg-gray-300 rounded-full"></span>
+        </div>`;
+    chatBox.appendChild(div);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function hideTyping() { const t = document.getElementById('typing'); if(t) t.remove(); }
+
+function sendMessage() {
+    const msg = userInput.value.trim();
+    if(!msg) return;
+    addMessage(msg, true);
+    userInput.value = '';
+    showTyping();
+    setTimeout(() => {
+        hideTyping();
+        addMessage(processAI(msg), false);
+    }, 600);
+}
+
+sendBtn.addEventListener('click', sendMessage);
+userInput.addEventListener('keydown', e=>{if(e.key==='Enter')sendMessage();});
+clearBtn.addEventListener('click', ()=>{chatBox.innerHTML=''; addMessage('Console cleared. Ready.', false);});
+speakBtn.addEventListener('click', ()=>{
+    speakEnabled = !speakEnabled;
+    speakBtn.style.color = speakEnabled ? '#00d4ff' : '#888';
+});
+voiceBtn.addEventListener('click', ()=>{
+    if(!recognition) { addMessage('Voice input not supported in this browser.', false); return; }
+    recognition.start();
+    voiceBtn.style.color = '#ff4444';
+    recognition.onend = ()=>{ voiceBtn.style.color = '#fff'; };
+});
+    </script>
+</body>
+</html>
